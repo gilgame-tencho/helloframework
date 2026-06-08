@@ -23,12 +23,12 @@ async function startServer() {
         // 1. Expressアプリケーション作成
         const app = createApp();
 
-        // 2. データベース初期化
+        // 2. DI初期化
+        initializeDI(sequelize);
+
+        // 3. データベース初期化
         await initializeDatabase();
         console.log('Database initialized.');
-
-        // 3. DI初期化
-        initializeDI(sequelize);
 
         // 4. HTTPサーバー作成
         const server = http.createServer(app);
@@ -116,6 +116,8 @@ function setupErrorHandling(app) {
 }
 
 // サーバー起動
-startServer();
+if (require.main === module) {
+    startServer();
+}
 
 module.exports = { startServer };

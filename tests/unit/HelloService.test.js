@@ -1,24 +1,10 @@
-/**
- * HelloService Unit Tests
- * 
- * HelloServiceユースケースのテスト（RepositoryはMock化）
- */
-
+const test = require('node:test');
+const assert = require('node:assert/strict');
 const HelloService = require('../../src/features/hello/service/HelloService');
-const HelloRepository = require('../../src/features/hello/repository/HelloRepository');
-const { Sequelize } = require('sequelize');
+const { CreateHelloRequest } = require('../../src/features/hello/dto/HelloDTO');
 
-/**
- * Mock Repository
- */
-let mockRepository = null;
-
-/**
- * テスト前処理
- */
-function setupMocks() {
-    // HelloRepositoryをMock化
-    mockRepository = {
+function createMockRepository() {
+    return {
         findLatest: async () => ({ id: 1, message: 'Hello World' }),
         findAll: async () => [
             { id: 1, message: 'Hello World' },
@@ -29,36 +15,54 @@ function setupMocks() {
     };
 }
 
-/**
- * テストスイート：HelloService.getLatestMessage
- */
-describe('HelloService.getLatestMessage', () => {
-    it('should return latest message', async () => {
-        setupMocks();
-        
-        // Serviceのメソッドを直接テスト（一時的な代替テスト）
-        console.log('Test: HelloService.getLatestMessage');
-        console.assert(true, 'Service retrieves latest message');
+test.beforeEach(() => {
+    HelloService.initialize({
+        repository: createMockRepository(),
+        sequelize: null
     });
 });
 
-/**
- * テストスイート：HelloService.createMessage
- */
-describe('HelloService.createMessage', () => {
-    it('should create message with valid request', async () => {
-        setupMocks();
-        
-        console.log('Test: HelloService.createMessage');
-        console.assert(true, 'Service creates message successfully');
-    });
+test('HelloService.getLatestMessage returns latest message', async () => {
+    const response = await HelloService.getLatestMessage();
 
-    it('should throw error with invalid request', async () => {
-        setupMocks();
-        
-        console.log('Test: HelloService.createMessage with invalid data');
-        console.assert(true, 'Service rejects invalid request');
-    });
+    assert.equal(response.id, 1);
+    assert.equal(response.message, 'Hello World');
 });
 
-console.log('HelloService Unit Tests completed');
+test('HelloService.getAllMessages returns all messages', async () => {
+    const response = await HelloService.getAllMessages();
+
+    assert.equal(response.length, 2);
+    assert.equal(response[0].id, 1);
+    assert.equal(response[0].message, 'Hello World');
+    assert.equal(response[1].id, 2);
+    assert.equal(response[1].message, 'Hello Test');
+});
+
+test('HelloService.getMessageById returns message by id', async () => {
+    const response = await HelloService.getMessageById(1);
+
+    assert.equal(response.id, 1);
+    assert.equal(response.message, 'Hello World');
+});
+
+test('HelloService.getMessageById throws when message is missing', async () => {
+    await assert.rejects(
+        () => HelloService.getMessageById(999),
+        /not found/
+    );
+});
+
+test('HelloService.createMessage creates formatted message', async () => {
+    const response = await HelloService.createMessage(new CreateHelloRequest('  Hello Created  '));
+
+    assert.equal(response.id, 3);
+    assert.equal(response.message, 'Hello Created');
+});
+
+test('HelloService.createMessage rejects invalid request', async () => {
+    await assert.rejects(
+        () => HelloService.createMessage(new CreateHelloRequest('')),
+        /Invalid message data/
+    );
+});

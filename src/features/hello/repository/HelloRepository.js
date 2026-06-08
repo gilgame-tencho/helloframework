@@ -76,10 +76,10 @@ class HelloRepository {
      * @param {Object} data - レコードデータ
      * @returns {Promise<Object>} 作成されたHelloレコード
      */
-    static async create(data) {
+    static async create(data, options = {}) {
         return await HelloModel.create({
             message: data.message
-        });
+        }, options);
     }
 
     /**
@@ -89,12 +89,12 @@ class HelloRepository {
      * @param {Object} data - 更新データ
      * @returns {Promise<Object>} 更新されたHelloレコード
      */
-    static async update(id, data) {
+    static async update(id, data, options = {}) {
         const record = await this.findById(id);
         if (!record) {
             return null;
         }
-        return await record.update(data);
+        return await record.update(data, options);
     }
 
     /**
@@ -103,12 +103,12 @@ class HelloRepository {
      * @param {number} id - レコードID
      * @returns {Promise<boolean>} 削除成功時true
      */
-    static async delete(id) {
+    static async delete(id, options = {}) {
         const record = await this.findById(id);
         if (!record) {
             return false;
         }
-        await record.destroy();
+        await record.destroy(options);
         return true;
     }
 

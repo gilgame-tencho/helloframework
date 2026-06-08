@@ -6,8 +6,8 @@
   "scripts": {
     "setup": "node src/setup.js",
     "start": "node src/main.js",
-    "test:unit": "node tests/unit/*.test.js",
-    "test:integration": "node tests/integration/*.test.js",
+    "test:unit": "node --test tests/unit",
+    "test:integration": "node --test tests/integration",
     "test": "npm run test:unit && npm run test:integration"
   },
   "keywords": [

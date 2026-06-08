@@ -13,13 +13,13 @@ const HelloRepository = require('./features/hello/repository/HelloRepository');
  */
 async function setup() {
     try {
-        // データベース初期化
-        console.log('Initializing database...');
-        await initializeDatabase();
-
         // DI初期化
         console.log('Initializing DI...');
         initializeDI(sequelize);
+
+        // データベース初期化
+        console.log('Initializing database...');
+        await initializeDatabase();
 
         // サンプルデータ作成
         console.log('Creating sample data...');

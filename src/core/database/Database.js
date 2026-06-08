@@ -10,7 +10,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database.sqlite',
-    logging: true // ログを非表示にする場合はfalse
+    logging: process.env.DB_LOGGING === 'true' ? console.log : false
 });
 
 /**

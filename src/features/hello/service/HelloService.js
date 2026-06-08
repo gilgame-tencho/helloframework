@@ -13,6 +13,21 @@ const { CreateHelloResponse, GetHelloResponse } = require('../dto/HelloDTO');
  * ユースケースを実装
  */
 class HelloService {
+    static repository = HelloRepository;
+    static sequelize = null;
+
+    /**
+     * DI依存を注入
+     *
+     * @param {Object} dependencies - Service dependencies
+     * @param {Object} dependencies.repository - Hello repository
+     * @param {Sequelize} dependencies.sequelize - Sequelize instance for transactions
+     */
+    static initialize({ repository = HelloRepository, sequelize = null } = {}) {
+        this.repository = repository;
+        this.sequelize = sequelize;
+    }
+
     /**
      * 最新のHelloメッセージを取得
      * 
@@ -20,7 +35,7 @@ class HelloService {
      * @throws {Error} レコードが見つからない場合
      */
     static async getLatestMessage() {
-        const record = await HelloRepository.findLatest();
+        const record = await this.repository.findLatest();
         
         if (!record) {
             throw new Error('No hello message found');
@@ -35,7 +50,7 @@ class HelloService {
      * @returns {Promise<Array<GetHelloResponse>>} Helloレスポンス配列
      */
     static async getAllMessages() {
-        const records = await HelloRepository.findAll();
+        const records = await this.repository.findAll();
         return records.map(record => GetHelloResponse.fromModel(record));
     }
 
@@ -55,10 +70,15 @@ class HelloService {
         // メッセージフォーマット
         const formattedMessage = HelloRule.formatMessage(request.message);
 
-        // DBへ保存
-        const record = await HelloRepository.create({
-            message: formattedMessage
-        });
+        const createRecord = async (transaction) => {
+            return await this.repository.create({
+                message: formattedMessage
+            }, transaction ? { transaction } : {});
+        };
+
+        const record = this.sequelize
+            ? await this.sequelize.transaction(createRecord)
+            : await createRecord();
 
         return CreateHelloResponse.fromModel(record);
     }
@@ -71,7 +91,7 @@ class HelloService {
      * @throws {Error} レコードが見つからない場合
      */
     static async getMessageById(id) {
-        const record = await HelloRepository.findById(id);
+        const record = await this.repository.findById(id);
         
         if (!record) {
             throw new Error(`Hello message with id ${id} not found`);

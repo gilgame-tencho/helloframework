@@ -16,6 +16,10 @@ const HelloController = require('../../features/hello/controller/HelloController
 function initializeDI(sequelize) {
     // Repositoryを初期化（Sequelizeインスタンスを注入）
     HelloRepository.initialize(sequelize);
+    HelloService.initialize({
+        repository: HelloRepository,
+        sequelize
+    });
 
     // Service と Controller はRepositoryに依存する
     // HelloService は HelloRepository を利用
