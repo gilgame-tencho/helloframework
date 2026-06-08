@@ -1,17 +1,35 @@
-// const Hello = sequelize.define(
-//     "hello",
-//     {
-//         message: DataTypes.STRING
-//     }
-// );
+const sequelize =
+    require("./database");
 
-const sequelize = require("./database");
+// モデル読み込み
+require("./models/Hello");
 
-async function start() {
+const Hello =
+    require("./models/Hello");
 
-    await sequelize.sync();
+async function setup() {
 
-    server.listen(3000);
+    try {
+
+        await sequelize.sync();
+
+        console.log(
+            "Database setup complete."
+        );
+
+        await Hello.create({
+            message: "Hello World"
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+    } finally {
+
+        await sequelize.close();
+
+    }
 }
 
-start();
+setup();
