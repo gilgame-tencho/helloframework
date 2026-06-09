@@ -1,41 +1,30 @@
-/**
- * Database Setup Script
- * 
- * データベースを初期化してサンプルデータを作成
- */
-
 const { initializeDatabase, sequelize } = require('./core/database/Database');
 const { initializeDI } = require('./core/di/DIContainer');
-const HelloRepository = require('./features/hello/repository/HelloRepository');
+const HelloService = require('./features/hello/service/HelloService');
 
-/**
- * セットアップ実行
- */
 async function setup() {
     try {
-        // DI初期化
         console.log('Initializing DI...');
         initializeDI(sequelize);
 
-        // データベース初期化
         console.log('Initializing database...');
-        await initializeDatabase();
+        await initializeDatabase({ alter: true });
 
-        // サンプルデータ作成
         console.log('Creating sample data...');
-        const helloRecord = await HelloRepository.create({
-            message: 'Hello World'
+        const result = await HelloService.seedSampleData();
+        console.log('Sample data created:', {
+            categories: result.categories.length,
+            messages: result.messages.length
         });
-        console.log('Sample data created:', helloRecord.toJSON());
 
         console.log('Setup completed successfully!');
     } catch (error) {
         console.error('Setup failed:', error);
+        process.exitCode = 1;
     } finally {
         await sequelize.close();
-        process.exit(0);
+        process.exit(process.exitCode || 0);
     }
 }
 
-// セットアップ実行
 setup();

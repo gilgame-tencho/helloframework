@@ -1,51 +1,36 @@
-/**
- * HelloValidator
- * 
- * Hello機能の入力検証を実施
- */
-
 const { z } = require('zod');
 
-/**
- * GetHelloのバリデーションスキーマ
- */
-const getHelloSchema = z.object({
-    // リクエストボディなし、または特定のパラメータが必要な場合はここに定義
-});
+const getHelloSchema = z.object({});
 
-/**
- * CreateHelloのバリデーションスキーマ
- */
 const createHelloSchema = z.object({
     message: z
         .string()
-        .min(1, 'メッセージは必須です')
-        .max(255, 'メッセージは255文字以内です')
+        .min(1, 'message is required')
+        .max(255, 'message must be 255 characters or less'),
+    categoryId: z.number().int().positive().optional()
 });
 
-/**
- * GetHelloの入力検証
- * 
- * @param {Object} data - バリデーション対象データ
- * @returns {Object} バリデーション結果
- */
+const idParamSchema = z.object({
+    id: z.coerce.number().int().positive()
+});
+
 function validateGetHello(data = {}) {
     return getHelloSchema.safeParse(data);
 }
 
-/**
- * CreateHelloの入力検証
- * 
- * @param {Object} data - バリデーション対象データ
- * @returns {Object} バリデーション結果
- */
 function validateCreateHello(data) {
     return createHelloSchema.safeParse(data);
+}
+
+function validateIdParam(data) {
+    return idParamSchema.safeParse(data);
 }
 
 module.exports = {
     validateGetHello,
     validateCreateHello,
+    validateIdParam,
     getHelloSchema,
-    createHelloSchema
+    createHelloSchema,
+    idParamSchema
 };

@@ -71,6 +71,8 @@ function setupRoutes(app) {
     // Hello API
     app.get('/hello', (req, res) => HelloController.getLatestMessage(req, res));
     app.get('/hello/all', (req, res) => HelloController.getAllMessages(req, res));
+    app.get('/hello/categories', (req, res) => HelloController.getCategories(req, res));
+    app.get('/hello/categories/:id/messages', (req, res) => HelloController.getCategoryMessages(req, res));
     app.get('/hello/:id', (req, res) => HelloController.getMessageById(req, res));
     app.post('/hello', (req, res) => HelloController.createMessage(req, res));
 

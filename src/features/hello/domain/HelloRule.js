@@ -49,7 +49,13 @@ class HelloRule {
         if (!data || typeof data !== 'object') {
             return false;
         }
-        return this.isValidMessage(data.message);
+        if (!this.isValidMessage(data.message)) {
+            return false;
+        }
+        if (data.categoryId === undefined || data.categoryId === null) {
+            return true;
+        }
+        return Number.isInteger(data.categoryId) && data.categoryId > 0;
     }
 }
 

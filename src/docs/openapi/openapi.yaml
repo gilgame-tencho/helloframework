@@ -2,27 +2,24 @@ openapi: 3.0.0
 info:
   title: Hello Framework API
   version: 1.0.0
-  description: Hello Framework の REST API 仕様
-  contact:
-    name: API Support
+  description: Hello Framework REST API
   license:
     name: MIT
 
 servers:
   - url: http://localhost:3000
-    description: 開発サーバー
+    description: Local development server
 
 paths:
   /health:
     get:
-      summary: ヘルスチェック
-      description: サーバーが正常に動作しているか確認
+      summary: Health check
       operationId: getHealth
       tags:
         - System
       responses:
         '200':
-          description: サーバーは正常です
+          description: Server is healthy.
           content:
             application/json:
               schema:
@@ -31,37 +28,30 @@ paths:
                   status:
                     type: string
                     example: ok
+                required:
+                  - status
 
   /hello:
     get:
-      summary: 最新のHelloメッセージを取得
-      description: データベースに登録された最新のHelloメッセージを取得します
+      summary: Get latest Hello message
       operationId: getLatestMessage
       tags:
         - Hello
       responses:
         '200':
-          description: メッセージ取得成功
+          description: Hello message returned successfully.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetHelloResponse'
         '404':
-          description: メッセージが見つかりません
+          description: Hello message not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
     post:
-      summary: 新しいHelloメッセージを作成
-      description: 新しいHelloメッセージをデータベースに保存します
+      summary: Create Hello message
       operationId: createMessage
       tags:
         - Hello
@@ -73,19 +63,19 @@ paths:
               $ref: '#/components/schemas/CreateHelloRequest'
       responses:
         '201':
-          description: メッセージ作成成功
+          description: Hello message created successfully.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateHelloResponse'
         '400':
-          description: バリデーションエラー
+          description: Validation error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
         '500':
-          description: サーバーエラー
+          description: Server error.
           content:
             application/json:
               schema:
@@ -93,14 +83,13 @@ paths:
 
   /hello/all:
     get:
-      summary: 全てのHelloメッセージを取得
-      description: データベースに登録されている全てのHelloメッセージを取得します
+      summary: Get all Hello messages
       operationId: getAllMessages
       tags:
         - Hello
       responses:
         '200':
-          description: メッセージ取得成功
+          description: Hello messages returned successfully.
           content:
             application/json:
               schema:
@@ -108,7 +97,69 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetHelloResponse'
         '500':
-          description: サーバーエラー
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /hello/categories:
+    get:
+      summary: Get Hello categories
+      operationId: getHelloCategories
+      tags:
+        - Hello
+      responses:
+        '200':
+          description: Hello categories returned successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HelloCategoryResponse'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /hello/categories/{id}/messages:
+    get:
+      summary: Get Hello category with messages
+      operationId: getHelloCategoryMessages
+      tags:
+        - Hello
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Hello category ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Hello category and messages returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloCategoryWithMessagesResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Hello category not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error.
           content:
             application/json:
               schema:
@@ -116,8 +167,7 @@ paths:
 
   /hello/{id}:
     get:
-      summary: IDでHelloメッセージを取得
-      description: 指定されたIDのHelloメッセージを取得します
+      summary: Get Hello message by ID
       operationId: getMessageById
       tags:
         - Hello
@@ -125,25 +175,31 @@ paths:
         - name: id
           in: path
           required: true
-          description: メッセージID
+          description: Hello message ID
           schema:
             type: integer
             example: 1
       responses:
         '200':
-          description: メッセージ取得成功
+          description: Hello message returned successfully.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetHelloResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
         '404':
-          description: メッセージが見つかりません
+          description: Hello message not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '500':
-          description: サーバーエラー
+          description: Server error.
           content:
             application/json:
               schema:
@@ -151,17 +207,35 @@ paths:
 
 components:
   schemas:
+    HelloCategoryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: system
+        description:
+          type: string
+          nullable: true
+          example: Framework and system messages
+      required:
+        - id
+        - name
+
     GetHelloResponse:
       type: object
       properties:
         id:
           type: integer
-          description: メッセージID
           example: 1
         message:
           type: string
-          description: メッセージ内容
           example: Hello World
+        category:
+          nullable: true
+          $ref: '#/components/schemas/HelloCategoryResponse'
       required:
         - id
         - message
@@ -173,8 +247,10 @@ components:
           type: string
           minLength: 1
           maxLength: 255
-          description: メッセージ内容
           example: Hello World
+        categoryId:
+          type: integer
+          example: 1
       required:
         - message
 
@@ -183,22 +259,34 @@ components:
       properties:
         id:
           type: integer
-          description: 作成されたメッセージID
           example: 1
         message:
           type: string
-          description: メッセージ内容
           example: Hello World
+        category:
+          nullable: true
+          $ref: '#/components/schemas/HelloCategoryResponse'
       required:
         - id
         - message
+
+    HelloCategoryWithMessagesResponse:
+      allOf:
+        - $ref: '#/components/schemas/HelloCategoryResponse'
+        - type: object
+          properties:
+            messages:
+              type: array
+              items:
+                $ref: '#/components/schemas/GetHelloResponse'
+          required:
+            - messages
 
     ErrorResponse:
       type: object
       properties:
         error:
           type: string
-          description: エラーメッセージ
           example: No hello message found
       required:
         - error
@@ -213,12 +301,5 @@ components:
           type: array
           items:
             type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-              path:
-                type: array
-                items:
-                  type: string
+      required:
+        - error

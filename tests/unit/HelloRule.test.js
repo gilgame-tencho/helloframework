@@ -18,6 +18,9 @@ test('HelloRule.formatMessage trims whitespace', () => {
 
 test('HelloRule.canCreate validates create data', () => {
     assert.equal(HelloRule.canCreate({ message: 'Hello World' }), true);
+    assert.equal(HelloRule.canCreate({ message: 'Hello World', categoryId: 1 }), true);
+    assert.equal(HelloRule.canCreate({ message: 'Hello World', categoryId: 0 }), false);
+    assert.equal(HelloRule.canCreate({ message: 'Hello World', categoryId: 1.5 }), false);
     assert.equal(HelloRule.canCreate({ message: '' }), false);
     assert.equal(HelloRule.canCreate(null), false);
 });

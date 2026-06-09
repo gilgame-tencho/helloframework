@@ -5,7 +5,7 @@
  */
 
 const HelloService = require('../service/HelloService');
-const { validateCreateHello } = require('../validator/HelloValidator');
+const { validateCreateHello, validateIdParam } = require('../validator/HelloValidator');
 const { CreateHelloRequest } = require('../dto/HelloDTO');
 
 /**
@@ -45,6 +45,33 @@ class HelloController {
         }
     }
 
+    static async getCategories(req, res) {
+        try {
+            const response = await HelloService.getCategories();
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async getCategoryMessages(req, res) {
+        try {
+            const validation = validateIdParam(req.params);
+
+            if (!validation.success) {
+                return res.status(400).json({
+                    error: 'Validation failed',
+                    details: validation.error.errors
+                });
+            }
+
+            const response = await HelloService.getCategoryWithMessages(validation.data.id);
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
+    }
+
     /**
      * GET /hello/:id
      * IDでHelloメッセージを取得
@@ -54,8 +81,16 @@ class HelloController {
      */
     static async getMessageById(req, res) {
         try {
-            const id = parseInt(req.params.id);
-            const response = await HelloService.getMessageById(id);
+            const validation = validateIdParam(req.params);
+
+            if (!validation.success) {
+                return res.status(400).json({
+                    error: 'Validation failed',
+                    details: validation.error.errors
+                });
+            }
+
+            const response = await HelloService.getMessageById(validation.data.id);
             res.status(200).json(response);
         } catch (error) {
             res.status(404).json({ error: error.message });
@@ -82,7 +117,10 @@ class HelloController {
             }
 
             // DTOを生成
-            const request = new CreateHelloRequest(validation.data.message);
+            const request = new CreateHelloRequest(
+                validation.data.message,
+                validation.data.categoryId ?? null
+            );
 
             // Serviceを呼び出し
             const response = await HelloService.createMessage(request);

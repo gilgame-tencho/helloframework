@@ -17,13 +17,19 @@ const sequelize = new Sequelize({
  * データベース初期化
  * 全てのモデルを同期
  */
-async function initializeDatabase() {
+async function initializeDatabase(options = {}) {
     try {
+        const syncOptions = {
+            alter: false,
+            force: false,
+            ...options
+        };
+
         await sequelize.authenticate();
         console.log('Database connection authenticated.');
         
         // モデル同期
-        await sequelize.sync({ alter: false });
+        await sequelize.sync(syncOptions);
         console.log('Database models synchronized.');
     } catch (error) {
         console.error('Database initialization failed:', error);

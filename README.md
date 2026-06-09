@@ -30,7 +30,7 @@ SQLite の `database.sqlite` を利用します。初期化とサンプルデー
 npm run setup
 ```
 
-セットアップでは `hello` テーブルを同期し、サンプルメッセージとして `Hello World` を登録します。
+セットアップでは `hello_categories` と `hello` テーブルを同期し、カテゴリ3件とメッセージ6件のサンプルデータを登録します。
 
 ## 起動方法
 
@@ -91,6 +91,8 @@ Invoke-RestMethod -Uri "http://localhost:3000/hello"
 | GET | `/health` | ヘルスチェック |
 | GET | `/hello` | 最新のHelloメッセージを取得 |
 | GET | `/hello/all` | 全Helloメッセージを取得 |
+| GET | `/hello/categories` | Helloカテゴリ一覧を取得 |
+| GET | `/hello/categories/:id/messages` | カテゴリと紐づくHelloメッセージを取得 |
 | GET | `/hello/:id` | ID指定でHelloメッセージを取得 |
 | POST | `/hello` | Helloメッセージを作成 |
 
