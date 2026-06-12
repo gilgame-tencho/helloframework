@@ -186,125 +186,29 @@ AIは必ず正本を参照して判断すること。
 
 # 5. AI間連携方式
 
-## 5.1 Product作成
+| No | 工程        | 担当      | Input               | Output              | 次工程 |
+| -- | --------- | ------- | ------------------- | ------------------- | --- |
+| 1  | Product企画 | ChatGPT | 課題、要望、Vision、Goal   | Feature、Story       | 2   |
+| 2  | Product登録 | PO      | Feature.md、Story.md | GitHub更新            | 3   |
+| 3  | Task計画    | ChatGPT | Story、設計情報          | Task一覧、Cline向けプロンプト | 4   |
+| 4  | Task登録    | Cline   | Task一覧、Cline向けプロンプト | Issue、Kanban        | 5   |
+| 5  | 実装対象選定    | PO      | Issue一覧             | 対象Task              | 6   |
+| 6  | 実装計画      | ChatGPT | Task、設計書、画面仕様       | Codex向けプロンプト        | 7   |
+| 7  | 実装        | Codex   | 実装プロンプト、ソースコード      | ソース修正、テスト           | 8   |
+| 8  | レビュー      | ChatGPT | 実装結果、差分             | レビュー結果、修正指示         | 9   |
+| 9  | Issue更新   | Cline   | レビュー結果              | Issue更新、Kanban更新    | 完了  |
 
-担当
 
-ChatGPT
-
-成果物
-
-```text
-Feature.md
-Story.md
-```
-
-プロダクトオーナーは成果物をレビュー後、GitHubへコミットする。
-
----
-
-## 5.2 GitHub登録
-
-担当
-
-Cline
-
-入力
-
-* Feature
-* Story
-* ChatGPT作成プロンプト
-
-成果物
-
-* Epic
-* Feature
-* Story
-* Issue
-
----
-
-## 5.3 実装対象選定
-
-担当
-
-プロダクトオーナー
-
-GitHub上のTaskまたはIssueを選択する。
-
----
-
-## 5.4 実装プロンプト生成
-
-担当
-
-ChatGPT
-
-入力
-
-* 対象Issue
-* 設計書
-* 画面仕様
-* API仕様
-* DB仕様
-
-成果物
-
-* Codex向け実装プロンプト
-
----
-
-## 5.5 実装
-
-担当
-
-Codex
-
-入力
-
-* 実装プロンプト
-* リポジトリ
-
-成果物
-
-* ソースコード
-* テストコード
-
----
-
-## 5.6 レビュー
-
-担当
-
-ChatGPT
-
-入力
-
-* 実装結果
-* 差分
-
-成果物
-
-* レビュー結果
-* 修正指示
-
----
-
-## 5.7 Issue更新
-
-担当
-
-Cline
-
-入力
-
-* レビュー結果
-* 実装完了報告
-
-成果物
-
-* Issue更新
-* Kanban更新
+| 作成者     | 成果物          | 受領者     | 用途        |
+| ------- | ------------ | ------- | --------- |
+| ChatGPT | Feature      | PO      | Product管理 |
+| ChatGPT | Story        | PO      | Product管理 |
+| ChatGPT | Task一覧       | Cline   | Issue生成   |
+| ChatGPT | Cline向けプロンプト | Cline   | GitHub登録  |
+| ChatGPT | Codex向けプロンプト | Codex   | 実装        |
+| Codex   | ソースコード       | ChatGPT | レビュー      |
+| ChatGPT | レビュー結果       | Cline   | Issue更新   |
+| Cline   | Issue        | PO      | 進捗管理      |
 
 ---
 
@@ -373,6 +277,34 @@ Codex
 実装する
 修正する
 テストする
+```
+
+```mermaid
+flowchart TD
+
+    subgraph Planning
+        GPT[ChatGPT]
+        Product[Feature / Story]
+    end
+
+    subgraph Management
+        Cline[Cline]
+        Issue[Issue / Kanban]
+    end
+
+    subgraph Development
+        Codex[Codex]
+        Source[Source]
+    end
+
+    GPT --> Product
+    Product --> Cline
+    Cline --> Issue
+    Issue --> GPT
+    GPT --> Codex
+    Codex --> Source
+    Source --> GPT
+    GPT --> Cline
 ```
 
 ---
