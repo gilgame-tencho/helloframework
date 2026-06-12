@@ -14,6 +14,12 @@ const createArticleSchema = z.object({
         .trim()
         .min(1, 'body is required')
         .max(5000, 'body must be 5000 characters or less'),
+    author: z
+        .string()
+        .trim()
+        .max(100, 'author must be 100 characters or less')
+        .optional()
+        .nullable(),
     status: articleStatusSchema.optional()
 });
 
@@ -30,6 +36,12 @@ const updateArticleSchema = z.object({
         .min(1, 'body is required')
         .max(5000, 'body must be 5000 characters or less')
         .optional(),
+    author: z
+        .string()
+        .trim()
+        .max(100, 'author must be 100 characters or less')
+        .optional()
+        .nullable(),
     status: articleStatusSchema.optional()
 }).refine((data) => Object.keys(data).length > 0, {
     message: 'at least one field is required'

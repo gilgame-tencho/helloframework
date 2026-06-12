@@ -515,6 +515,10 @@ components:
         body:
           type: string
           example: This draft article shows the minimum blog workflow.
+        author:
+          type: string
+          nullable: true
+          example: Framework Team
         status:
           $ref: '#/components/schemas/ArticleStatus'
         publishedAt:
@@ -534,6 +538,7 @@ components:
         - id
         - title
         - body
+        - author
         - status
         - publishedAt
         - createdAt
@@ -552,6 +557,11 @@ components:
           minLength: 1
           maxLength: 5000
           example: Article body
+        author:
+          type: string
+          nullable: true
+          maxLength: 100
+          example: Framework Team
         status:
           description: Accepted for validation compatibility, but creation always stores draft.
           $ref: '#/components/schemas/ArticleStatus'
@@ -572,6 +582,11 @@ components:
           minLength: 1
           maxLength: 5000
           example: Updated article body
+        author:
+          type: string
+          nullable: true
+          maxLength: 100
+          example: Tech Lead
         status:
           $ref: '#/components/schemas/ArticleStatus'
 

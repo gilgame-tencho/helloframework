@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HelloBlog Articles</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div>
+            <p class="eyebrow">HelloBlog</p>
+            <h1>Articles</h1>
+        </div>
+        <a class="button primary" href="/articles/new">New article</a>
+    </header>
+
+    <main class="page-shell">
+        <section class="toolbar" aria-label="Article filters">
+            <div class="segmented" id="status-filter" role="group" aria-label="Status filter">
+                <button type="button" class="segment active" data-status="all">All</button>
+                <button type="button" class="segment" data-status="draft">Draft</button>
+                <button type="button" class="segment" data-status="published">Published</button>
+                <button type="button" class="segment" data-status="archived">Archived</button>
+            </div>
+            <p class="muted" id="article-count">Loading...</p>
+        </section>
+
+        <div class="notice" id="message" hidden></div>
+
+        <section class="table-wrap" aria-label="Article list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Updated</th>
+                    </tr>
+                </thead>
+                <tbody id="article-list">
+                    <tr>
+                        <td colspan="4" class="empty">Loading articles...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="/public/js/articles.js"></script>
+</body>
+</html>

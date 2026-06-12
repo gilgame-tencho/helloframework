@@ -25,6 +25,7 @@ class ArticleRule {
         return {
             title: data.title.trim(),
             body: data.body.trim(),
+            author: data.author ? data.author.trim() : null,
             status: ARTICLE_STATUSES.DRAFT,
             publishedAt: null
         };
@@ -39,6 +40,10 @@ class ArticleRule {
 
         if (data.body !== undefined) {
             normalized.body = data.body.trim();
+        }
+
+        if (data.author !== undefined) {
+            normalized.author = data.author ? data.author.trim() : null;
         }
 
         if (data.status !== undefined) {

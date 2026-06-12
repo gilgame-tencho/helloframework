@@ -17,6 +17,10 @@ function defineArticleModel(sequelize) {
             type: DataTypes.TEXT,
             allowNull: false
         },
+        author: {
+            type: DataTypes.STRING(100),
+            allowNull: true
+        },
         status: {
             type: DataTypes.ENUM('draft', 'published', 'archived'),
             allowNull: false,
@@ -58,6 +62,7 @@ class ArticleRepository {
         return await ArticleModel.create({
             title: data.title,
             body: data.body,
+            author: data.author ?? null,
             status: data.status || 'draft',
             publishedAt: data.publishedAt ?? null
         }, options);
@@ -89,18 +94,21 @@ class ArticleRepository {
             {
                 title: 'HelloBlog first draft',
                 body: 'This draft article shows the minimum blog workflow.',
+                author: 'Framework Team',
                 status: 'draft',
                 publishedAt: null
             },
             {
                 title: 'Published architecture note',
                 body: 'This published article demonstrates public content.',
+                author: 'Tech Lead',
                 status: 'published',
                 publishedAt: new Date('2026-01-01T00:00:00.000Z')
             },
             {
                 title: 'Archived release memo',
                 body: 'This archived article demonstrates immutable content.',
+                author: 'Operations',
                 status: 'archived',
                 publishedAt: new Date('2025-12-01T00:00:00.000Z')
             }

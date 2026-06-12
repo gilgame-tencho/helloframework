@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HelloBlog Article</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div>
+            <p class="eyebrow">HelloBlog</p>
+            <h1 id="page-title">Article</h1>
+        </div>
+        <a class="button" href="/articles">Back to list</a>
+    </header>
+
+    <main class="page-shell edit-layout">
+        <div class="notice" id="message" hidden></div>
+
+        <form class="editor" id="article-form">
+            <div class="field">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" maxlength="100" required>
+            </div>
+
+            <div class="field">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" rows="12" maxlength="5000" required></textarea>
+            </div>
+
+            <div class="grid-two">
+                <div class="field">
+                    <label for="author">Author</label>
+                    <input id="author" name="author" type="text" maxlength="100">
+                </div>
+
+                <div class="field">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="draft">draft</option>
+                        <option value="published">published</option>
+                        <option value="archived">archived</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="meta-grid" id="meta" hidden>
+                <div>
+                    <span class="meta-label">ID</span>
+                    <span id="meta-id"></span>
+                </div>
+                <div>
+                    <span class="meta-label">Published</span>
+                    <span id="meta-published"></span>
+                </div>
+                <div>
+                    <span class="meta-label">Updated</span>
+                    <span id="meta-updated"></span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="button primary" id="save-button" type="submit">Save</button>
+                <button class="button" id="publish-button" type="button" hidden>Publish</button>
+                <button class="button warning" id="archive-button" type="button" hidden>Archive</button>
+                <button class="button danger" id="delete-button" type="button" hidden>Delete</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="/public/js/article-edit.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@
  */
 
 const express = require('express');
+const path = require('path');
 
 /**
  * Expressアプリケーションを作成・設定
@@ -20,6 +21,7 @@ function createApp() {
 
     // URL エンコード済みボディパーサー
     app.use(express.urlencoded({ extended: true }));
+    app.use('/public', express.static(path.join(__dirname, '../../public')));
 
     // CORSミドルウェア（必要に応じて）
     // app.use(cors());

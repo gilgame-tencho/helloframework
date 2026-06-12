@@ -34,6 +34,20 @@ Invoke-RestMethod -Uri "http://localhost:3000/api/articles/1/publish" -Method Pa
 Invoke-RestMethod -Uri "http://localhost:3000/api/articles/1/archive" -Method Patch
 ```
 
+HelloBlog screen check:
+
+```text
+http://localhost:3000/articles
+```
+
+Available screens:
+
+| Path | Description |
+| --- | --- |
+| `/articles` | Article list with status filter |
+| `/articles/new` | New article form |
+| `/articles/:id` | Article detail and edit form |
+
 Article endpoints:
 
 | Method | Path | Description |

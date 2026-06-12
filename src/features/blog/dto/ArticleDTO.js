@@ -1,16 +1,18 @@
 class ArticleRequest {
-    constructor({ title, body, status } = {}) {
+    constructor({ title, body, author, status } = {}) {
         this.title = title;
         this.body = body;
+        this.author = author;
         this.status = status;
     }
 }
 
 class ArticleResponse {
-    constructor(id, title, body, status, publishedAt, createdAt, updatedAt) {
+    constructor(id, title, body, author, status, publishedAt, createdAt, updatedAt) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.author = author;
         this.status = status;
         this.publishedAt = publishedAt;
         this.createdAt = createdAt;
@@ -26,6 +28,7 @@ class ArticleResponse {
             model.id,
             model.title,
             model.body,
+            model.author,
             model.status,
             formatDate(model.publishedAt),
             formatDate(model.createdAt),

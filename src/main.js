@@ -5,6 +5,7 @@
  */
 
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 const { createApp } = require('./core/config/AppConfig');
 const { initializeDatabase, sequelize } = require('./core/database/Database');
@@ -69,6 +70,17 @@ async function startServer() {
  * @param {Express.Application} app - Expressアプリケーション
  */
 function setupRoutes(app) {
+    // HelloBlog pages
+    app.get('/articles', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public/articles.html'));
+    });
+    app.get('/articles/new', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public/article-edit.html'));
+    });
+    app.get('/articles/:id', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public/article-edit.html'));
+    });
+
     // Hello API
     setupHelloRoutes(app, '/hello');
     setupHelloRoutes(app, '/api/hello');
