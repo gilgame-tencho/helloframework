@@ -87,7 +87,7 @@ Implementation
 改善開発は以下の階層で管理する。
 
 ```text
-Issue
+MaintenanceIssue
  ↓
 Task
  ↓
@@ -289,7 +289,7 @@ point_trans作成
 
 # 5. 改善開発の定義
 
-## 5.1 Issue
+## 5.1 MaintenanceIssue
 
 ### 定義
 
@@ -303,7 +303,7 @@ point_trans作成
 
 ---
 
-Issueは以下に分類する。
+MaintenanceIssueは以下に分類する。
 
 ---
 
@@ -397,7 +397,7 @@ QRコード処理を共通化する
 
 # 7. 技術的負債の昇格ルール
 
-小規模な改善はIssueとして管理する。
+小規模な改善はMaintenanceIssueとして管理する。
 
 ```text
 TD-001
@@ -447,7 +447,7 @@ Feature
 Story
 80%
 
-Issue
+MaintenanceIssue
 20%
 ```
 
@@ -508,7 +508,7 @@ Story
 YESの場合
 
 ```text
-Issue
+MaintenanceIssue
 ↓
 Task
 ```
@@ -542,7 +542,7 @@ Implementation
 ---
 
 ```text
-Issue
+MaintenanceIssue
  ├─ Bug
  ├─ TechDebt
  ├─ Refactor
