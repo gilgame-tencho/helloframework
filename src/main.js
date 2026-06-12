@@ -10,6 +10,7 @@ const { createApp } = require('./core/config/AppConfig');
 const { initializeDatabase, sequelize } = require('./core/database/Database');
 const { initializeDI } = require('./core/di/DIContainer');
 const HelloController = require('./features/hello/controller/HelloController');
+const ArticleController = require('./features/blog/controller/ArticleController');
 
 // ポート設定
 const PORT = process.env.PORT || 3000;
@@ -69,12 +70,17 @@ async function startServer() {
  */
 function setupRoutes(app) {
     // Hello API
-    app.get('/hello', (req, res) => HelloController.getLatestMessage(req, res));
-    app.get('/hello/all', (req, res) => HelloController.getAllMessages(req, res));
-    app.get('/hello/categories', (req, res) => HelloController.getCategories(req, res));
-    app.get('/hello/categories/:id/messages', (req, res) => HelloController.getCategoryMessages(req, res));
-    app.get('/hello/:id', (req, res) => HelloController.getMessageById(req, res));
-    app.post('/hello', (req, res) => HelloController.createMessage(req, res));
+    setupHelloRoutes(app, '/hello');
+    setupHelloRoutes(app, '/api/hello');
+
+    // Article API
+    app.get('/api/articles', (req, res) => ArticleController.getArticles(req, res));
+    app.get('/api/articles/:id', (req, res) => ArticleController.getArticleById(req, res));
+    app.post('/api/articles', (req, res) => ArticleController.createArticle(req, res));
+    app.put('/api/articles/:id', (req, res) => ArticleController.updateArticle(req, res));
+    app.patch('/api/articles/:id/publish', (req, res) => ArticleController.publishArticle(req, res));
+    app.patch('/api/articles/:id/archive', (req, res) => ArticleController.archiveArticle(req, res));
+    app.delete('/api/articles/:id', (req, res) => ArticleController.deleteArticle(req, res));
 
     // ヘルスチェックエンドポイント
     app.get('/health', (req, res) => {
@@ -85,6 +91,15 @@ function setupRoutes(app) {
     app.use((req, res) => {
         res.status(404).json({ error: 'Not found' });
     });
+}
+
+function setupHelloRoutes(app, basePath) {
+    app.get(basePath, (req, res) => HelloController.getLatestMessage(req, res));
+    app.get(`${basePath}/all`, (req, res) => HelloController.getAllMessages(req, res));
+    app.get(`${basePath}/categories`, (req, res) => HelloController.getCategories(req, res));
+    app.get(`${basePath}/categories/:id/messages`, (req, res) => HelloController.getCategoryMessages(req, res));
+    app.get(`${basePath}/:id`, (req, res) => HelloController.getMessageById(req, res));
+    app.post(basePath, (req, res) => HelloController.createMessage(req, res));
 }
 
 /**

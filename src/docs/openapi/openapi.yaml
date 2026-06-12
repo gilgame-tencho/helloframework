@@ -205,7 +205,220 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /api/articles:
+    get:
+      summary: Get articles
+      operationId: getArticles
+      tags:
+        - Article
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Optional article status filter.
+          schema:
+            $ref: '#/components/schemas/ArticleStatus'
+      responses:
+        '200':
+          description: Articles returned successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    post:
+      summary: Create article
+      operationId: createArticle
+      tags:
+        - Article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArticleRequest'
+      responses:
+        '201':
+          description: Article created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/articles/{id}:
+    get:
+      summary: Get article by ID
+      operationId: getArticleById
+      tags:
+        - Article
+      parameters:
+        - $ref: '#/components/parameters/ArticleId'
+      responses:
+        '200':
+          description: Article returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Article not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update article
+      operationId: updateArticle
+      tags:
+        - Article
+      parameters:
+        - $ref: '#/components/parameters/ArticleId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArticleRequest'
+      responses:
+        '200':
+          description: Article updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Article not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Archived article cannot be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete article
+      operationId: deleteArticle
+      tags:
+        - Article
+      parameters:
+        - $ref: '#/components/parameters/ArticleId'
+      responses:
+        '204':
+          description: Article deleted successfully.
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Article not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/articles/{id}/publish:
+    patch:
+      summary: Publish article
+      operationId: publishArticle
+      tags:
+        - Article
+      parameters:
+        - $ref: '#/components/parameters/ArticleId'
+      responses:
+        '200':
+          description: Article published successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Article not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Archived article cannot be published.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/articles/{id}/archive:
+    patch:
+      summary: Archive article
+      operationId: archiveArticle
+      tags:
+        - Article
+      parameters:
+        - $ref: '#/components/parameters/ArticleId'
+      responses:
+        '200':
+          description: Article archived successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Article not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
+  parameters:
+    ArticleId:
+      name: id
+      in: path
+      required: true
+      description: Article ID
+      schema:
+        type: integer
+        example: 1
+
   schemas:
     HelloCategoryResponse:
       type: object
@@ -281,6 +494,86 @@ components:
                 $ref: '#/components/schemas/GetHelloResponse'
           required:
             - messages
+
+    ArticleStatus:
+      type: string
+      enum:
+        - draft
+        - published
+        - archived
+      example: draft
+
+    ArticleResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: HelloBlog first draft
+        body:
+          type: string
+          example: This draft article shows the minimum blog workflow.
+        status:
+          $ref: '#/components/schemas/ArticleStatus'
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2026-01-01T00:00:00.000Z'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T00:00:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2026-01-01T00:00:00.000Z'
+      required:
+        - id
+        - title
+        - body
+        - status
+        - publishedAt
+        - createdAt
+        - updatedAt
+
+    CreateArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: HelloBlog
+        body:
+          type: string
+          minLength: 1
+          maxLength: 5000
+          example: Article body
+        status:
+          description: Accepted for validation compatibility, but creation always stores draft.
+          $ref: '#/components/schemas/ArticleStatus'
+      required:
+        - title
+        - body
+
+    UpdateArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Updated title
+        body:
+          type: string
+          minLength: 1
+          maxLength: 5000
+          example: Updated article body
+        status:
+          $ref: '#/components/schemas/ArticleStatus'
 
     ErrorResponse:
       type: object

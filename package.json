@@ -6,8 +6,8 @@
   "scripts": {
     "setup": "node src/setup.js",
     "start": "node src/main.js",
-    "test:unit": "node --test tests/unit",
-    "test:integration": "node --test tests/integration",
+    "test:unit": "node --test tests/unit/HelloValidator.test.js tests/unit/HelloRule.test.js tests/unit/HelloService.test.js tests/unit/ArticleValidator.test.js tests/unit/ArticleRule.test.js tests/unit/ArticleService.test.js",
+    "test:integration": "node --test tests/integration/HelloRepository.test.js tests/integration/ArticleRepository.test.js",
     "test": "npm run test:unit && npm run test:integration"
   },
   "keywords": [

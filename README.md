@@ -1,5 +1,53 @@
 # Hello Framework
 
+## HelloBlog
+
+HelloBlog extends the original Hello sample with a blog Article feature. The `hello` feature remains as the minimal sample, while `blog` provides a richer feature-first example with controller, validator, DTO, service, domain rule, repository, Sequelize model, setup seed data, OpenAPI, and tests.
+
+Article fields:
+
+- `id`
+- `title`
+- `body`
+- `status`: `draft`, `published`, or `archived`
+- `publishedAt`
+- `createdAt`
+- `updatedAt`
+
+Article behavior:
+
+- Creating an article always stores it as `draft`, even if `status` is supplied.
+- Publishing sets `status` to `published` and fills `publishedAt`.
+- Publishing an already published article is allowed.
+- Archived articles cannot be updated or published.
+- Article lists can be filtered with `?status=draft`, `?status=published`, or `?status=archived`.
+
+Setup also synchronizes the `articles` table and inserts sample Article records for draft, published, and archived states.
+
+Article API examples:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:3000/api/articles"
+Invoke-RestMethod -Uri "http://localhost:3000/api/articles?status=published"
+Invoke-RestMethod -Uri "http://localhost:3000/api/articles" -Method Post -ContentType "application/json" -Body '{"title":"HelloBlog","body":"First article body"}'
+Invoke-RestMethod -Uri "http://localhost:3000/api/articles/1/publish" -Method Patch
+Invoke-RestMethod -Uri "http://localhost:3000/api/articles/1/archive" -Method Patch
+```
+
+Article endpoints:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/articles` | Get articles, optionally filtered by `status` |
+| GET | `/api/articles/:id` | Get article by ID |
+| POST | `/api/articles` | Create draft article |
+| PUT | `/api/articles/:id` | Update article |
+| PATCH | `/api/articles/:id/publish` | Publish article |
+| PATCH | `/api/articles/:id/archive` | Archive article |
+| DELETE | `/api/articles/:id` | Delete article |
+
+The legacy Hello routes are kept, and `/api/hello` is available as an API alias for the latest Hello message.
+
 Hello Framework は、Node.js / Express / Sequelize / SQLite を使ったバックエンドアプリケーションのサンプル実装です。
 
 アーキテクチャは feature first 構成を採用し、Controller、Validator、DTO、Service、Domain、Repository の責務を分離しています。

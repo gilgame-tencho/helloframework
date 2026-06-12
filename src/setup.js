@@ -1,6 +1,7 @@
 const { initializeDatabase, sequelize } = require('./core/database/Database');
 const { initializeDI } = require('./core/di/DIContainer');
 const HelloService = require('./features/hello/service/HelloService');
+const ArticleService = require('./features/blog/service/ArticleService');
 
 async function setup() {
     try {
@@ -12,9 +13,11 @@ async function setup() {
 
         console.log('Creating sample data...');
         const result = await HelloService.seedSampleData();
+        const articles = await ArticleService.seedSampleData();
         console.log('Sample data created:', {
             categories: result.categories.length,
-            messages: result.messages.length
+            messages: result.messages.length,
+            articles: articles.length
         });
 
         console.log('Setup completed successfully!');
