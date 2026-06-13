@@ -335,20 +335,6 @@ PointServiceが肥大化している
 
 ---
 
-## Refactor
-
-### 定義
-
-機能変更を伴わない設計改善。
-
-### 例
-
-```text
-QRコード処理を共通化する
-```
-
----
-
 ## Ops
 
 ### 定義
@@ -360,6 +346,20 @@ QRコード処理を共通化する
 ```text
 ログ出力強化
 監視項目追加
+```
+
+---
+
+## Security
+
+### 定義
+
+セキュリティ強化やパッチ設計の改善。
+
+### 例
+
+```text
+HTTPSを導入する
 ```
 
 ---
@@ -386,8 +386,8 @@ QRコード処理を共通化する
 
 * Bug
 * TechDebt
-* Refactor
 * Ops
+* Security
 
 ---
 
@@ -545,8 +545,8 @@ Implementation
 MaintenanceIssue
  ├─ Bug
  ├─ TechDebt
- ├─ Refactor
- └─ Ops
+ ├─ Ops
+ └─ Security
 
  ↓
 

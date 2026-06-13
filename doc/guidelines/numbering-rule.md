@@ -63,8 +63,8 @@ VA-TASK-001
 |--------|--------|
 | Bug | BUG |
 | TechDebt | TD |
-| Refactor | RF |
 | Ops | OPS |
+| Security | SC |
 | Task | TASK |
 
 例
@@ -72,8 +72,8 @@ VA-TASK-001
 ```text
 MI-BUG-001
 MI-TD-001
-MI-RF-001
 MI-OPS-001
+MI-SC-001
 MI-TASK-001
 ```
 
