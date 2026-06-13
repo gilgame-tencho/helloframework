@@ -78,7 +78,7 @@
 画面設計開始時に以下のドキュメントを作成する。
 
 ```text
-screen-numbering-rule.md
+numbering-rule.md
 ```
 
 採番規則の正本は当該ドキュメントとする。
@@ -93,7 +93,6 @@ screen-numbering-rule.md
 docs/
 └─ screen/
    ├─ screen-index.md
-   ├─ screen-numbering-rule.md
    ├─ screen-flow-overview.mmd
    │
    ├─ flows/
@@ -157,21 +156,6 @@ docs/
 最終Featureには当該画面を最後に追加または変更したFeatureを記載する。
 
 版数には現在の画面仕様版数を記載する。
-
----
-
-## 4.2 screen-numbering-rule.md
-
-### 目的
-
-画面ID採番ルール管理
-
-### 管理内容
-
-* プレフィックス
-* 番号帯
-* 用途
-* 採番例
 
 ---
 
@@ -396,8 +380,7 @@ S900 --> S501
 正本は以下とする。
 
 1. screen-index.md
-2. screen-numbering-rule.md
-3. details/*.md
+2. details/*.md
 
 Mermaidは人間および生成AIが構造を理解するためのビューとして利用する。
 
