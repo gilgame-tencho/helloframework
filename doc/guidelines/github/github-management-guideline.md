@@ -466,3 +466,28 @@ Commit
 任意のFeatureからTaskおよび実装状況を辿れること。
 
 これを本プロジェクトのトレーサビリティ原則とする。
+
+# 14. Github Issue タグ設計
+
+Github Issueに付与するタグは以下とする。
+
+### Type
+type:story
+type:task
+
+### Maintenance Issue
+MI:bug
+MI:techdebt
+MI:refactor
+MI:ops
+MI:security
+
+### Task
+task:investigation
+task:design
+task:implement
+task:refactor
+task:test
+task:document
+task:review
+
