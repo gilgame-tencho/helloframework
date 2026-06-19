@@ -57,7 +57,7 @@ Implementation
 管理場所
 
 ```text
-docs/maintenance/maintenance-index.md
+docs/product/maintenance_issue/maintenance-index.md
 ```
 
 管理対象
@@ -76,8 +76,11 @@ docs/maintenance/maintenance-index.md
 管理場所
 
 ```text
-docs/maintenance/issues/
+docs/product/maintenance_issue/<Type>/
 ```
+
+_※タイプについては[Type](#type)を参照_
+
 
 例
 
