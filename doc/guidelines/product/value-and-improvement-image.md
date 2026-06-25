@@ -122,4 +122,21 @@ flowchart TB
 
 ```mermaid
 flowchart TB
+    subgraph ValueSource["価値源泉軸"]
+        VS[Value Source<br/>機能・体験が生まれる源泉]
+
+        UP[User Problem<br/>ユーザー課題]
+        UV[User Value / Market Advantage<br/>ユーザー価値・市場優位性]
+        BM[Business Strategy / Monetization<br/>事業戦略・収益化]
+        SG[Service Operation / Governance<br/>サービス運営・統制]
+        RT[Risk / Compliance / Trust<br/>リスク・法務・信頼性]
+        LA[Learning / Growth / Analytics<br/>学習・成長・分析]
+
+        VS --> UP
+        VS --> UV
+        VS --> BM
+        VS --> SG
+        VS --> RT
+        VS --> LA
+    end	
 ```
