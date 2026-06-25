@@ -10,21 +10,17 @@ flowchart TB
     V[Vision<br/>実現したい世界]
 
     subgraph Strategy["戦略軸"]
-        STG[Strategy<br/>ビジネス戦略・方向性]
-        RSK[Risk<br/>ビジネスリスク]
-        STG <--> RSK
+        STG[Strategy<br/>戦略軸]
     end
 
     subgraph Schedule["計画軸"]
-        TL[Strategic Line<br/>計画上の大きな到達線]
-        MiS[Milestone<br/>到達したいプロダクト状態]
-        Gol[Goal<br/>ビジネス上確認可能な最小成果]
-        TL --> MiS --> Gol
+        SchedBox[Schedule<br/>計画軸]
     end
 
     subgraph ValueSource["価値源泉軸"]
-        VS[Value Source<br/>機能・体験が生まれる源泉]
+        VS[ValueSource<br/>価値源泉軸]
     end
+
 
     V -.方向性.-> Strategy
     V -.方向性.-> Schedule
@@ -84,20 +80,24 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph Strategy["戦略軸"]
-        STG[Strategy<br/>ビジネス戦略・方向性]
-        RSK[Risk<br/>ビジネスリスク]
-        STG <--> RSK
+        STG[Strategy<br/>ビジネス戦略・方向性<br/>
+Risk<br/>ビジネスリスク<br/>
+TargetUser<br/>ターゲット層・アーリーアダプター]
     end
 
     subgraph Schedule["計画軸"]
-        TL[Strategic Line<br/>計画上の大きな到達線]
-        MiS[Milestone<br/>到達したいプロダクト状態]
-        Gol[Goal<br/>ビジネス上確認可能な最小成果]
-        TL --> MiS --> Gol
+        SchedBox[Strategic Line<br/>計画上の大きな到達線<br/>
+Milestone<br/>到達したいプロダクト状態<br/>
+Goal<br/>ビジネス上確認可能な最小成果]
     end
 
     subgraph ValueSource["価値源泉軸"]
-        VS[Value Source<br/>機能・体験が生まれる源泉]
+        VS[Value Source<br/>機能・体験が生まれる源泉<br/>
+ユーザ課題・価値・収益化
+事業戦略・市場優位性
+サービス運営・リスク
+統制・法務・信頼性
+学習・成長・分析]
     end
 
     Strategy <-.三権分立.-> Schedule
@@ -110,12 +110,29 @@ flowchart TB
 
 ```mermaid
 flowchart TB
+
+    subgraph Strategy["戦略軸"]
+        STG[Strategy<br/>ビジネス戦略・方向性]
+        RSK[Risk<br/>ビジネスリスク]
+        TUR[TargetUser<br/>ターゲット層・アーリーアダプター]
+
+        STG <--> RSK
+        RSK <--> TUR
+        TUR <--> STG
+    end
+
 ```
 
 #### 計画軸
 
 ```mermaid
 flowchart TB
+    subgraph Schedule["計画軸"]
+        TL[Strategic Line<br/>計画上の大きな到達線]
+        MiS[Milestone<br/>到達したいプロダクト状態]
+        Gol[Goal<br/>ビジネス上確認可能な最小成果]
+        TL --> MiS --> Gol
+    end
 ```
 
 #### 価値軸
