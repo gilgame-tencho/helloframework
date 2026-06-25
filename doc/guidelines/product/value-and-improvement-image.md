@@ -80,24 +80,15 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph Strategy["戦略軸"]
-        STG[Strategy<br/>ビジネス戦略・方向性<br/>
-Risk<br/>ビジネスリスク<br/>
-TargetUser<br/>ターゲット層・アーリーアダプター]
+        STG[Strategy<br/>戦略軸]
     end
 
     subgraph Schedule["計画軸"]
-        SchedBox[Strategic Line<br/>計画上の大きな到達線<br/>
-Milestone<br/>到達したいプロダクト状態<br/>
-Goal<br/>ビジネス上確認可能な最小成果]
+        SchedBox[Schedule<br/>計画軸]
     end
 
     subgraph ValueSource["価値源泉軸"]
-        VS[Value Source<br/>機能・体験が生まれる源泉<br/>
-ユーザ課題・価値・収益化
-事業戦略・市場優位性
-サービス運営・リスク
-統制・法務・信頼性
-学習・成長・分析]
+        VS[ValueSource<br/>価値源泉軸]
     end
 
     Strategy <-.三権分立.-> Schedule
@@ -105,8 +96,7 @@ Goal<br/>ビジネス上確認可能な最小成果]
     ValueSource <-.三権分立.-> Strategy
 
 ```
-#### 戦略軸
-
+#### 戦略軸 詳細
 
 ```mermaid
 flowchart TB
@@ -123,7 +113,7 @@ flowchart TB
 
 ```
 
-#### 計画軸
+#### 計画軸 詳細
 
 ```mermaid
 flowchart TB
@@ -135,7 +125,7 @@ flowchart TB
     end
 ```
 
-#### 価値軸
+#### 価値軸 詳細
 
 ```mermaid
 flowchart TB
